@@ -10,9 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 const styles = theme => ({
   root: {
     flexGrow: 1,
-  },
-  title: {
-     
+    margin: "3vh 0",
   },
   loginDiv: {
   	marginLeft: "auto",
@@ -20,18 +18,20 @@ const styles = theme => ({
   login: {
   	marginRight: "1rem",
   },
+  label: {
+    fontSize: "1.5em",
+    textDecoration: "underline",
+  }
 });
 
   const ImageLinkForm = ({ classes, theme }) => {
   	return (
         <div className={classes.root}>
-          <h1>Welcome to Emoji Face</h1>
-          <p className="f3">
-            {"Upload a picture to Emoji-Face it"}
-          </p>
-          <div className=" w-70 center pa4 br3 shadow-5">
-            <input className="f4 pa2 w-70 center" type="text" />
-            <button className="w-30 grow f4 link ph3 pv2 dib white bg-light-purple" >Detect</button>
+          <div className="w-70 center pa4 br3 shadow-5">
+            <label className={classes.label} >Use the filepicker button below or enter a URL</label>
+            <input className="f4 pa2 w-70 center" type="file" accept="image/png, image/jpeg"/>
+            <input className="f4 pa2 w-70 center" type="text" placeholder="Enter a URL here"/>
+            <button className="w-40 grow f4 link ph3 pv2 dib white bg-light-purple">Emojify</button>
           </div>
         </div>
     )
