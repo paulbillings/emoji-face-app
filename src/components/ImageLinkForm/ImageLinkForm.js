@@ -12,30 +12,22 @@ const styles = theme => ({
     flexGrow: 1,
     margin: "3vh 0",
   },
-  loginDiv: {
-  	marginLeft: "auto",
-  },
-  login: {
-  	marginRight: "1rem",
-  },
-  label: {
-    fontSize: "1.5em",
-    textDecoration: "underline",
-  }
 });
 
-  const ImageLinkForm = ({ classes, theme }) => {
+  const ImageLinkForm = ({ onInputChange, onButtonSubmit, classes, theme }) => {
   	return (
         <div className={classes.root}>
-          <div className="w-70 center pa4 br3 shadow-5">
-            <label className={classes.label} >Use the filepicker button below or enter a URL</label>
-            <input className="f4 pa2 w-70 center" type="file" accept="image/png, image/jpeg"/>
-            <input className="f4 pa2 w-70 center" type="text" placeholder="Enter a URL here"/>
-            <button className="w-40 grow f4 link ph3 pv2 dib white bg-light-purple">Emojify</button>
+          <div className="w-70 center pa4 br3 shadow-5 bg-light-gray">
+            <input className="f4 pa2 w-70 center" type="file" accept="image/png, image/jpeg" onChange={onInputChange}/>
+            <input className="f4 pa2 w-70 center" type="text" placeholder="Enter a URL here" onChange={onInputChange}/>
+            <button 
+              className="w-40 grow f4 link ph3 pv2 dib white bg-light-purple"
+              onClick={onButtonSubmit}
+            >Emojify</button>
           </div>
+
         </div>
     )
   }
 
-// export default Navigation;
 export default withStyles(styles)(ImageLinkForm);
