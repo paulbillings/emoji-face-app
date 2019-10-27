@@ -11,6 +11,7 @@ const app = new Clarifai.App({
 });
 
 
+
 class App extends Component {
 	
 	
@@ -32,13 +33,19 @@ class App extends Component {
 			console.log("local", event.target.files[0]);
 			let preview = "";
 			let input = "";
+			let dataURL = "";
+			let base64 = "";
 			let reader = new FileReader();
 			reader.onload = (e) => {
-    			preview = reader.result;
-    			this.setState({imageUrl: preview});
+    			dataURL = reader.result;
+    			this.setState({imageUrl: dataURL});
+    			base64 = dataURL.slice(dataURL.indexOf(',')+1);
+    			let dataLocal = { base64: base64};
+    			console.log("new data local", base64);
+    			this.setState({input: dataLocal});
   			}
   			input = reader.readAsDataURL(event.target.files[0]);
-			this.setState({input: input});
+  			console.log("input", input);
 		} else {
 			//online URL
 			this.setState({localUpload: false});
@@ -61,7 +68,7 @@ class App extends Component {
 		      console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
 		    },
 		    function(err) {
-		      // there was an error
+		      console.log("error", err);
 		    }
 		);
 	}
