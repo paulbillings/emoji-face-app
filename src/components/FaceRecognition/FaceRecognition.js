@@ -7,19 +7,29 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
+import "./FaceRecognition.css";
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    marginTop: "2vh",
   },
+  image: {
+    position: "absolute",
+    left: "50%",
+    marginLeft: "-250px",
+  }
 });
 
-  const FaceRecognition = ({ imageUrl, classes, theme }) => {
-  	return (
-        <div className={classes.root}>
-          <img alt="" src={imageUrl} />
-        </div>
+const FaceRecognition = ({ imageUrl, box, classes, theme }) => {
+  return (
+    <div className={classes.root}>
+      <div className={classes.image}>
+        <img id="inputImage" alt="" src={imageUrl} width="500px" height="auto" />
+        <div className="bounding-box" style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow , left: box.leftCol}}></div>
+      </div>
+    </div>
     );
-  }
+}
 
-export default withStyles(styles)(FaceRecognition);
+ export default withStyles(styles)(FaceRecognition);
