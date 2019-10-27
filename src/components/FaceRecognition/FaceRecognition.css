@@ -1,6 +1,6 @@
 .bounding-box {
 	position: absolute;
-    box-shadow: 0 0 0 3px #149df2 inset;
+    /*box-shadow: 0 0 0 3px #149df2 inset;*/
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
@@ -8,6 +8,11 @@
     -ms-flex-pack: center;
     justify-content: center;
     cursor: pointer;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url(https://cdn.shopify.com/s/files/1/1061/1924/products/Slightly_Smiling_Face_Emoji_87fdae9b-b2af-4619-a37f-e484c5e2e7a4_large.png?v=1480481059);
+
 }
 
 #inputImage {
