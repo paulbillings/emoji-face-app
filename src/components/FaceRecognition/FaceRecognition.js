@@ -17,15 +17,15 @@ const styles = theme => ({
   image: {
     position: "absolute",
     left: "50%",
-    marginLeft: "-250px",
+    marginLeft: "-150px",
   }
 });
 
 const FaceRecognition = ({ imageUrl, box, classes, theme }) => {
   return (
     <div className={classes.root}>
-      <div className={classes.image}>
-        <img id="inputImage" alt="" src={imageUrl} width="500px" height="auto" />
+      <div id="imageDiv" className={classes.image}>
+        <img id="inputImage" alt="" src={imageUrl} width="300px" height="auto" />
         <div className="bounding-box" style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow , left: box.leftCol}}></div>
       </div>
     </div>
