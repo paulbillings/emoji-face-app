@@ -13,7 +13,7 @@ const styles = theme => ({
   root: {
    padding: theme.spacing(3, 2),
    height: "80vh",
-   background: "url(" + HeroPic + ") no-repeat center center fixed",
+   background: "url(" + HeroPic + ") no-repeat center center",
    backgroundSize: "cover",
   },
   header: {

@@ -31,7 +31,8 @@ class App extends Component {
 		const image = document.getElementById("inputImage");
 		const width = Number(image.width);
 		const height = Number(image.height);
-		console.log(width, height);
+		console.log("width:", width, " height:", height);
+		console.log(clarifaiFace.left_col * width - 25);
 		return {
 			leftCol: clarifaiFace.left_col * width - 25,
 			topRow: clarifaiFace.top_row * height,
@@ -41,7 +42,7 @@ class App extends Component {
 	}
 
 	displayFaceBox = (box) => {
-		console.log(box);
+		// console.log(box);
 		this.setState({box: box});
 	}
 	
@@ -51,7 +52,7 @@ class App extends Component {
 		if (event.target.files !== null) {
 			//local upload
 			this.setState({localUpload: true});
-			console.log("local", event.target.files[0]);
+			// console.log("local", event.target.files[0]);
 			let preview = "";
 			let input = "";
 			let dataURL = "";
@@ -62,15 +63,15 @@ class App extends Component {
     			this.setState({imageUrl: dataURL});
     			base64 = dataURL.slice(dataURL.indexOf(',')+1);
     			let dataLocal = { base64: base64};
-    			console.log("new data local", base64);
+    			// console.log("new data local", base64);
     			this.setState({input: dataLocal});
   			}
   			input = reader.readAsDataURL(event.target.files[0]);
-  			console.log("input", input);
+  			// console.log("input", input);
 		} else {
 			//online URL
 			this.setState({localUpload: false});
-			console.log("online", event.target.value);
+			// console.log("online", event.target.value);
 			this.setState({input: event.target.value});
 		}
 	}
