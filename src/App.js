@@ -22,7 +22,16 @@ class App extends Component {
 			imageUrl: "",
 			localUpload: false,
 			box: {},
+			canvas: "",
+			ctx: "",
 		}
+	}
+
+	componentDidMount() {
+		const canvas = document.getElementById("canvas");
+		const ctx = canvas.getContext("2d");
+		this.setState({canvas: canvas});
+		this.setState({ctx: ctx});
 	}
 
 	
@@ -61,6 +70,15 @@ class App extends Component {
 			reader.onload = (e) => {
     			dataURL = reader.result;
     			this.setState({imageUrl: dataURL});
+    			document.getElementById("inputImage").onload = () => {
+    				console.log("loaded");
+    				let ctx1 = this.state.ctx;
+    				this.state.canvas.width = document.getElementById("inputImage").width;
+    				this.state.canvas.height = document.getElementById("inputImage").height;
+    				ctx1.drawImage(document.getElementById("inputImage"), 0, 0);
+    				// ctx1.drawImage(document.getElementById("box"), 0, 0);
+    				ctx1.fillText("Hello", 210, 75)
+    			}
     			base64 = dataURL.slice(dataURL.indexOf(',')+1);
     			let dataLocal = { base64: base64};
     			// console.log("new data local", base64);
@@ -68,6 +86,7 @@ class App extends Component {
   			}
   			input = reader.readAsDataURL(event.target.files[0]);
   			// console.log("input", input);
+
 		} else {
 			//online URL
 			this.setState({localUpload: false});
@@ -98,7 +117,7 @@ class App extends Component {
 		      	onInputChange={this.onInputChange} 
 		      	onButtonSubmit={this.onButtonSubmit}
 		      />
-		      <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
+		      <FaceRecognition canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
 		    </div>
 		);
 	}
