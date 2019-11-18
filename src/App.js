@@ -10,7 +10,7 @@ const app = new Clarifai.App({
  apiKey: '14911963b80443fab726c30bd4996904'
 });
 
-
+	
 
 class App extends Component {
 	
@@ -22,7 +22,17 @@ class App extends Component {
 			imageUrl: "",
 			localUpload: false,
 			box: {},
+			canvas: "",
+			ctx: "",
+			height: 0,
 		}
+	}
+
+	componentDidMount() {
+		const canvas = document.getElementById("canvas");
+		const ctx = canvas.getContext("2d");
+		this.setState({canvas: canvas});
+		this.setState({ctx: ctx});
 	}
 
 	
@@ -34,9 +44,9 @@ class App extends Component {
 		console.log("width:", width, " height:", height);
 		console.log(clarifaiFace.left_col * width - 25);
 		return {
-			leftCol: clarifaiFace.left_col * width - 25,
+			leftCol: clarifaiFace.left_col * width - 15,
 			topRow: clarifaiFace.top_row * height,
-			rightCol: width - (clarifaiFace.right_col * width) - 25,
+			rightCol: width - (clarifaiFace.right_col * width) - 15,
 			bottomRow: height - (clarifaiFace.bottom_row * height)
 		}
 	}
@@ -44,8 +54,35 @@ class App extends Component {
 	displayFaceBox = (box) => {
 		// console.log(box);
 		this.setState({box: box});
+		let ctx = this.state.ctx;
+		let width = 400 - (box.leftCol + box.rightCol)
+		let height = this.state.height - (box.topRow + box.bottomRow);
+		console.log("face width:", width, " face height:", height);
+		let face = new Image();
+		face.src = "https://cdn.shopify.com/s/files/1/1061/1924/products/Slightly_Smiling_Face_Emoji_87fdae9b-b2af-4619-a37f-e484c5e2e7a4_large.png?v=1480481059"
+		ctx.drawImage(face, box.leftCol, box.topRow, width, height);
+		
 	}
-	
+
+
+	emojifyFace = () => {
+		let ctx1 = this.state.ctx;
+    	this.state.canvas.width = document.getElementById("inputImage").width;
+    	this.state.canvas.height = document.getElementById("inputImage").height;
+    	let newImage = document.getElementById("inputImage");
+    	//get ratio to fit image into canvas nicely
+    	let canvas = ctx1.canvas ;
+	   	let ratio = newImage.width / newImage.naturalWidth    ;
+	   	let newHeight = newImage.naturalHeight*ratio;
+	   	this.setState({height: newHeight});
+	   	console.log("height:", newImage.height);
+	   	console.log("ratio:", ratio);
+	   	console.log("new height:", newHeight);
+    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
+		// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
+        //           		0, 0, canvas.width, canvas.height); // destination rectangle
+    	ctx1.fillText("Emojified by Paul Billings", 280, newHeight - 10)
+	}
 
 
 	onInputChange = (event) => {
@@ -61,13 +98,34 @@ class App extends Component {
 			reader.onload = (e) => {
     			dataURL = reader.result;
     			this.setState({imageUrl: dataURL});
+    			document.getElementById("inputImage").onload = () => {
+    				console.log("loaded");
+    				this.emojifyFace();
+    				// let ctx1 = this.state.ctx;
+    				// this.state.canvas.width = document.getElementById("inputImage").width;
+    				// this.state.canvas.height = document.getElementById("inputImage").height;
+    				// let newImage = document.getElementById("inputImage");
+    				// //get ratio to fit image into canvas nicely
+    				// let canvas = ctx1.canvas ;
+	   				// let ratio = newImage.width / newImage.naturalWidth    ;
+	   				// let newHeight = newImage.naturalHeight*ratio;
+	   				// this.setState({height: newHeight});
+	   				// console.log("height:", newImage.height);
+	   				// console.log("ratio:", ratio);
+	   				// console.log("new height:", newHeight);
+    				// ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
+					// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
+        			//           		0, 0, canvas.width, canvas.height); // destination rectangle
+    				// ctx1.fillText("Emojified by Paul Billings", 280, newHeight - 10)
+    			}
     			base64 = dataURL.slice(dataURL.indexOf(',')+1);
-    			let dataLocal = { base64: base64};
+    			let dataLocal = {base64: base64};
     			// console.log("new data local", base64);
     			this.setState({input: dataLocal});
   			}
   			input = reader.readAsDataURL(event.target.files[0]);
   			// console.log("input", input);
+
 		} else {
 			//online URL
 			this.setState({localUpload: false});
@@ -79,6 +137,10 @@ class App extends Component {
 	onButtonSubmit = () => {
 		if (this.state.localUpload === false) {
 			this.setState({imageUrl: this.state.input})
+			document.getElementById("inputImage").onload = () => {
+    				console.log("loaded");
+					this.emojifyFace();
+			}
 		} else {
 			console.log("clarifai", this.state.input);
 		}
@@ -99,7 +161,7 @@ class App extends Component {
 		      	onInputChange={this.onInputChange} 
 		      	onButtonSubmit={this.onButtonSubmit}
 		      />
-		      <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
+		      <FaceRecognition height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
 		    </div>
 		);
 	}

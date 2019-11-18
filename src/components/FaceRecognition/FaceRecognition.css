@@ -3,6 +3,8 @@
     box-shadow: 0 0 0 3px #149df2 inset;
     display: -ms-flexbox;
     display: flex;
+    /*to not display bounding box and related css emoji face*/
+    display: none;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     -ms-flex-pack: center;
@@ -19,6 +21,13 @@
  /* background-color: white;
   padding: 10px 100px 40px 10px;*/
     margin-bottom: 25px;
+}
+
+#inputImage {
+    display: none;
+     background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 /*#container {
