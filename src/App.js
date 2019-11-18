@@ -24,7 +24,7 @@ class App extends Component {
 			box: {},
 			canvas: "",
 			ctx: "",
-			height: 500,
+			height: 0,
 		}
 	}
 
@@ -44,9 +44,9 @@ class App extends Component {
 		console.log("width:", width, " height:", height);
 		console.log(clarifaiFace.left_col * width - 25);
 		return {
-			leftCol: clarifaiFace.left_col * width - 25,
+			leftCol: clarifaiFace.left_col * width - 15,
 			topRow: clarifaiFace.top_row * height,
-			rightCol: width - (clarifaiFace.right_col * width) - 25,
+			rightCol: width - (clarifaiFace.right_col * width) - 15,
 			bottomRow: height - (clarifaiFace.bottom_row * height)
 		}
 	}
@@ -54,6 +54,14 @@ class App extends Component {
 	displayFaceBox = (box) => {
 		// console.log(box);
 		this.setState({box: box});
+		let ctx = this.state.ctx;
+		let width = 400 - (box.leftCol + box.rightCol)
+		let height = this.state.height - (box.topRow + box.bottomRow);
+		console.log("face width:", width, " face height:", height);
+		let face = new Image();
+		face.src = "https://cdn.shopify.com/s/files/1/1061/1924/products/Slightly_Smiling_Face_Emoji_87fdae9b-b2af-4619-a37f-e484c5e2e7a4_large.png?v=1480481059"
+		ctx.drawImage(face, box.leftCol, box.topRow, width, height);
+		
 	}
 
 
@@ -87,10 +95,10 @@ class App extends Component {
     				ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
 					// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
         			//           		0, 0, canvas.width, canvas.height); // destination rectangle
-    				ctx1.fillText("Hello", 210, 75)
+    				ctx1.fillText("You've been Emojified!!", 280, newHeight - 10)
     			}
     			base64 = dataURL.slice(dataURL.indexOf(',')+1);
-    			let dataLocal = { base64: base64};
+    			let dataLocal = {base64: base64};
     			// console.log("new data local", base64);
     			this.setState({input: dataLocal});
   			}
