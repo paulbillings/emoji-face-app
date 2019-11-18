@@ -23,6 +23,8 @@
 
 #inputImage {
     display: none;
+    width: auto;
+    height: 200px;
 }
 
 /*#container {
