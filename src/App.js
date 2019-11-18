@@ -82,6 +82,7 @@ class App extends Component {
 		} else {
 			console.log("clarifai", this.state.input);
 		}
+		console.log("NEW: input= ", this.state.input);
 		app.models.predict(
 			"a403429f2ddf4b49b307e318f00e528b",
 			this.state.input)
