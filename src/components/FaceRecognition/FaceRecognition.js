@@ -16,19 +16,19 @@ const styles = theme => ({
   },
   image: {
     position: "absolute",
-    
+    marginLeft: "400px",
   },
   img: {
     display: "hidden",
   }
 });
 
-const FaceRecognition = ({ canvas, ctx, imageUrl, box, classes, theme }) => {
+const FaceRecognition = ({ height, canvas, ctx, imageUrl, box, classes, theme }) => {
   return (
     <div className={classes.root}>
       <div className={classes.image} id="imageDiv" >
-        <canvas id="canvas" width="auto" height="200px" />
-        <img className={classes.img} id="inputImage" alt="" src={imageUrl} />
+        <canvas id="canvas" width="400" height={height}></canvas>
+        <img className={classes.img} id="inputImage" alt="" src={imageUrl} width="400" height={height}/>
         <div className="bounding-box" id="face" style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow , left: box.leftCol}}></div>
       </div>
     </div>

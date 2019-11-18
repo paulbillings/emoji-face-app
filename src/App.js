@@ -10,7 +10,7 @@ const app = new Clarifai.App({
  apiKey: '14911963b80443fab726c30bd4996904'
 });
 
-
+	
 
 class App extends Component {
 	
@@ -24,6 +24,7 @@ class App extends Component {
 			box: {},
 			canvas: "",
 			ctx: "",
+			height: 500,
 		}
 	}
 
@@ -54,7 +55,6 @@ class App extends Component {
 		// console.log(box);
 		this.setState({box: box});
 	}
-	
 
 
 	onInputChange = (event) => {
@@ -75,8 +75,18 @@ class App extends Component {
     				let ctx1 = this.state.ctx;
     				this.state.canvas.width = document.getElementById("inputImage").width;
     				this.state.canvas.height = document.getElementById("inputImage").height;
-    				ctx1.drawImage(document.getElementById("inputImage"), 0, 0);
-    				// ctx1.drawImage(document.getElementById("box"), 0, 0);
+    				let newImage = document.getElementById("inputImage");
+    				//get ratio to fit image into canvas nicely
+    				let canvas = ctx1.canvas ;
+	   				let ratio = newImage.width / newImage.naturalWidth    ;
+	   				let newHeight = newImage.naturalHeight*ratio;
+	   				this.setState({height: newHeight});
+	   				console.log("height:", newImage.height);
+	   				console.log("ratio:", ratio);
+	   				console.log("new height:", newHeight);
+    				ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
+					// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
+        			//           		0, 0, canvas.width, canvas.height); // destination rectangle
     				ctx1.fillText("Hello", 210, 75)
     			}
     			base64 = dataURL.slice(dataURL.indexOf(',')+1);
@@ -117,7 +127,7 @@ class App extends Component {
 		      	onInputChange={this.onInputChange} 
 		      	onButtonSubmit={this.onButtonSubmit}
 		      />
-		      <FaceRecognition canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
+		      <FaceRecognition height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
 		    </div>
 		);
 	}

@@ -23,9 +23,10 @@
 
 #inputImage {
     display: none;
-    width: auto;
-    height: 200px;
-}
+     background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
 
 /*#container {
     text-align: center;
