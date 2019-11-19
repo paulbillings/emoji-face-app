@@ -17,7 +17,7 @@ const styles = theme => ({
   image: {
     position: "absolute",
     left: "50%",
-    marginLeft: "-200px",
+    marginLeft: "-210px",
   },
   img: {
     display: "hidden",

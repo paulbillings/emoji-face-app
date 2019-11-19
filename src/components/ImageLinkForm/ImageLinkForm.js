@@ -18,8 +18,8 @@ const styles = theme => ({
   	return (
         <div className={classes.root}>
           <div className="w-70 center pa4 br3 shadow-5 bg-light-gray">
-            <input className="f4 pa2 w-70 center" type="file" accept="image/png, image/jpeg" onChange={onInputChange}/>
-            <input className="f4 pa2 w-70 center" type="text" placeholder="Enter a URL here" onChange={onInputChange}/>
+            <input className="f4 pa2 w-70 center" type="file" id="localupload" accept="image/png, image/jpeg" onChange={onInputChange}/>
+            <input className="f4 pa2 w-70 center" type="text" id="urlupload" placeholder="Enter a URL here" onChange={onInputChange}/>
             <button 
               className="w-40 grow f4 link ph3 pv2 dib white bg-light-purple"
               onClick={onButtonSubmit}
