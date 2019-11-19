@@ -30,6 +30,12 @@
     background-size: contain;
 }
 
+#canvas {
+    padding: 10px;
+    padding-bottom: 100px;
+    border: 1px solid black;
+}
+
 /*#container {
     text-align: center;
     padding: 10px 20px;
