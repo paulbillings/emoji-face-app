@@ -185,6 +185,7 @@ class App extends Component {
 		}
 
 
+	//resetOrientation from https://jsfiddle.net/wunderbart/w1hw5kv1/
 	resetOrientation = (srcBase64, srcOrientation, callback) => {
 		
 		let img = new Image();
@@ -238,8 +239,6 @@ class App extends Component {
 			let reader = new FileReader();
 			let newImage = "";
 
-
-
 		if (event.target.files !== null) {
 			//local upload
 			this.setState({localUpload: true});
@@ -251,9 +250,6 @@ class App extends Component {
 					        imageExif = orientation;
 				});
 
-
-			
-			
 			reader.onload = (e) => {
     			
 	    		dataURL = reader.result;
@@ -282,7 +278,6 @@ class App extends Component {
   			}
   			input = reader.readAsDataURL(event.target.files[0]);
   			
-
 		} else {
 			//online URL
 			this.setState({localUpload: false});
