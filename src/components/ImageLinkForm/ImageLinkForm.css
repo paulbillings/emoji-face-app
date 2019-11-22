@@ -1,0 +1,35 @@
+#formDiv {
+	width: 70%;
+}
+
+#localupload {
+	width: 70%;
+}
+
+#urlupload {
+	width: 70%;
+}
+
+#emojiButton {
+	margin-top: 20px;
+	width: 40%;
+}
+
+ @media only screen and (max-width: 760px) {
+        #formDiv {
+            width: 90%;
+        }
+
+        #localupload {
+        	width: 100%;
+		}
+
+		#urlupload {
+			width: 90%;
+		}
+
+		#emojiButton {
+			width: 80%;
+			padding: 20px;
+		}
+    }

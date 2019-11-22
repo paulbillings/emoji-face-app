@@ -26,6 +26,7 @@ class App extends Component {
 			canvas: "",
 			ctx: "",
 			height: 0,
+			width: 500,
 		}
 	}
 
@@ -35,7 +36,16 @@ class App extends Component {
 		this.setState({canvas: canvas});
 		this.setState({ctx: ctx});
 		this.setState({imageUrl: balloons});
+		window.addEventListener("resize", this.resize.bind(this));
+    	this.resize();
 		this.imageLoader();
+	}
+
+	resize() {
+	    let windowWidth = window.innerWidth;
+	    if (windowWidth <= 760) {
+	        this.setState({width: 300});
+	    }
 	}
 
 	imageLoader = () => {
@@ -50,7 +60,7 @@ class App extends Component {
 	   		console.log("height:", newImage.height);
 	   		console.log("ratio:", ratio);
 	   		console.log("new height:", newHeight);
-    		ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
+    		ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, this.state.width, newHeight);
     	}
 	}
 
@@ -74,7 +84,7 @@ class App extends Component {
 		// console.log(box);
 		this.setState({box: box});
 		let ctx = this.state.ctx;
-		let width = 400 - (box.leftCol + box.rightCol)
+		let width = this.state.width - (box.leftCol + box.rightCol)
 		let height = this.state.height - (box.topRow + box.bottomRow);
 		console.log("face width:", width, " face height:", height);
 		let face = new Image();
@@ -102,10 +112,10 @@ class App extends Component {
 		   	console.log("height:", newImage.height);
 		   	console.log("ratio:", ratio);
 		   	console.log("new height:", newHeight);
-	    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
+	    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, this.state.width, newHeight);
 			// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
 	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
-	    	ctx1.fillText("Emojified by Paul Billings", 270, newHeight - 10)
+	    	ctx1.fillText("Emojified by Paul Billings", this.state.width - 130, newHeight - 10)
     	//}
 	}
 
@@ -127,10 +137,10 @@ class App extends Component {
 		   	console.log("height:", newImage.height);
 		   	console.log("ratio:", ratio);
 		   	console.log("new height:", newHeight);
-	    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
+	    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, this.state.width, newHeight);
 			// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
 	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
-	    	ctx1.fillText("Emojified by Paul Billings", 270, newHeight - 10)
+	    	ctx1.fillText("Emojified by Paul Billings", this.state.width - 130, newHeight - 10)
     	}
 	}
 
@@ -314,7 +324,7 @@ class App extends Component {
 		      	onInputChange={this.onInputChange} 
 		      	onButtonSubmit={this.onButtonSubmit}
 		      />
-		      <FaceRecognition height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
+		      <FaceRecognition width={this.state.width} height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
 		    </div>
 		);
 	}

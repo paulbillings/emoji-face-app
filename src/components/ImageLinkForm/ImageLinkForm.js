@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import "./ImageLinkForm.css";
 
 const styles = theme => ({
   root: {
@@ -17,11 +18,11 @@ const styles = theme => ({
   const ImageLinkForm = ({ onInputChange, onButtonSubmit, classes, theme }) => {
   	return (
         <div className={classes.root}>
-          <div className="w-70 center pa4 br3 shadow-5 bg-light-gray">
-            <input className="f4 pa2 w-70 center" type="file" id="localupload" accept="image/png, image/jpeg" onChange={onInputChange}/>
-            <input className="f4 pa2 w-70 center" type="text" id="urlupload" placeholder="Enter a URL here" onChange={onInputChange}/>
+          <div className="center pa4 br3 shadow-5 bg-light-gray" id="formDiv">
+            <input className="f4 pa2 center" type="file" id="localupload" accept="image/png, image/jpeg" onChange={onInputChange}/>
+            <input className="f4 pa2 center" type="text" id="urlupload" placeholder="Enter a URL here" onChange={onInputChange}/>
             <button 
-              className="w-40 grow f4 link ph3 pv2 dib white bg-light-purple"
+              className="grow f4 link ph3 pv2 dib white bg-light-purple" id="emojiButton"
               onClick={onButtonSubmit}
             >Emojify</button>
           </div>
