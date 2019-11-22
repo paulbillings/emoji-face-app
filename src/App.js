@@ -87,11 +87,13 @@ class App extends Component {
 	emojifyFace = () => {
 		//rotate when exif 6
 					//document.getElementById("inputImage").style.transform = "rotate(90deg)";
-		document.getElementById("inputImage").onload = () => {
+		//document.getElementById("inputImage").onload = () => {
 			let ctx1 = this.state.ctx;
 	    	this.state.canvas.width = document.getElementById("inputImage").width;
 	    	this.state.canvas.height = document.getElementById("inputImage").height;
 	    	let newImage = document.getElementById("inputImage");
+	    	console.log("image in emojyface:", newImage);
+	    	//alert(newImage.src);
 	    	//get ratio to fit image into canvas nicely
 	    	let canvas = ctx1.canvas;
 		   	let ratio = newImage.width / newImage.naturalWidth;
@@ -103,7 +105,32 @@ class App extends Component {
 	    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
 			// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
 	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
-	    	ctx1.fillText("Emojified by Paul Billings", 280, newHeight - 10)
+	    	ctx1.fillText("Emojified by Paul Billings", 270, newHeight - 10)
+    	//}
+	}
+
+	emojifyFaceURL = () => {
+		//rotate when exif 6
+					//document.getElementById("inputImage").style.transform = "rotate(90deg)";
+		document.getElementById("inputImage").onload = () => {
+			let ctx1 = this.state.ctx;
+	    	this.state.canvas.width = document.getElementById("inputImage").width;
+	    	this.state.canvas.height = document.getElementById("inputImage").height;
+	    	let newImage = document.getElementById("inputImage");
+	    	console.log("image in emojyface:", newImage);
+	    	//alert(newImage.src);
+	    	//get ratio to fit image into canvas nicely
+	    	let canvas = ctx1.canvas;
+		   	let ratio = newImage.width / newImage.naturalWidth;
+		   	let newHeight = newImage.naturalHeight*ratio;
+		   	this.setState({height: newHeight});
+		   	console.log("height:", newImage.height);
+		   	console.log("ratio:", ratio);
+		   	console.log("new height:", newHeight);
+	    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
+			// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
+	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
+	    	ctx1.fillText("Emojified by Paul Billings", 270, newHeight - 10)
     	}
 	}
 
@@ -202,6 +229,17 @@ class App extends Component {
 }
 
 	onInputChange = (event) => {
+
+			let preview = "";
+			let input = "";
+			let dataURL = "";
+			let base64 = "";
+			let dataLocal ="";
+			let reader = new FileReader();
+			let newImage = "";
+
+
+
 		if (event.target.files !== null) {
 			//local upload
 			this.setState({localUpload: true});
@@ -214,17 +252,13 @@ class App extends Component {
 				});
 
 
-			let preview = "";
-			let input = "";
-			let dataURL = "";
-			let base64 = "";
-			let reader = new FileReader();
+			
 			
 			reader.onload = (e) => {
     			
 	    		dataURL = reader.result;
 	    				
-	    		let newImage = document.getElementById("inputImage");
+	    		newImage = document.getElementById("inputImage");
 
 	    		
 	    		console.log("hopefully Image O: ", imageExif);
@@ -237,11 +271,10 @@ class App extends Component {
 	    			
 	    			console.log("loaded");
 	    			//this.setState({imageUrl: dataURL});
-	    			this.setState({imageUrl: newImage.src})
+	    			this.setState({imageUrl: newImage.src});
 	    			this.emojifyFace();
-
 	    			base64 = newImage.src.slice(newImage.src.indexOf(',')+1);
-	    			let dataLocal = {base64: base64};
+	    			dataLocal = {base64: base64};
 	    			// console.log("new data local", base64);
 	    			this.setState({input: dataLocal});
     			}
@@ -255,24 +288,13 @@ class App extends Component {
 			this.setState({localUpload: false});
 			// console.log("online", event.target.value);
 			this.setState({input: event.target.value});
+			this.setState({imageUrl: event.target.value});
+			this.emojifyFaceURL();
 		}
 
-		
-				
-
-		//this.emojifyFace();
 	}
 
 	onButtonSubmit = () => {
-		if (this.state.localUpload === false) {
-			this.setState({imageUrl: this.state.input})
-			document.getElementById("inputImage").onload = () => {
-    				console.log("loaded2");
-					this.emojifyFace();
-			}
-		} else {
-			console.log("clarifai", this.state.input);
-		}
 		console.log("NEW: input= ", this.state.input);
 		app.models.predict(
 			"a403429f2ddf4b49b307e318f00e528b",
