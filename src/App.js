@@ -117,7 +117,7 @@ class App extends Component {
 	    	this.state.canvas.width = document.getElementById("inputImage").width;
 	    	this.state.canvas.height = document.getElementById("inputImage").height;
 	    	let newImage = document.getElementById("inputImage");
-	    	console.log("image in emojyface:", newImage);
+	    	console.log("image in emojifyFaceURL:", newImage);
 	    	//alert(newImage.src);
 	    	//get ratio to fit image into canvas nicely
 	    	let canvas = ctx1.canvas;
@@ -141,7 +141,7 @@ class App extends Component {
 		    reader.onload = function(e) {
 
 		        var view = new DataView(e.target.result);
-		        if (view.getUint16(0, false) != 0xFFD8)
+		        if (view.getUint16(0, false) !== 0xFFD8)
 		        {
 		            return callback(-2);
 		        }
@@ -151,26 +151,26 @@ class App extends Component {
 		            if (view.getUint16(offset+2, false) <= 8) return callback(-1);
 		            var marker = view.getUint16(offset, false);
 		            offset += 2;
-		            if (marker == 0xFFE1) 
+		            if (marker === 0xFFE1) 
 		            {
-		                if (view.getUint32(offset += 2, false) != 0x45786966) 
+		                if (view.getUint32(offset += 2, false) !== 0x45786966) 
 		                {
 		                    return callback(-1);
 		                }
 
-		                var little = view.getUint16(offset += 6, false) == 0x4949;
+		                var little = view.getUint16(offset += 6, false) === 0x4949;
 		                offset += view.getUint32(offset + 4, little);
 		                var tags = view.getUint16(offset, little);
 		                offset += 2;
 		                for (var i = 0; i < tags; i++)
 		                {
-		                    if (view.getUint16(offset + (i * 12), little) == 0x0112)
+		                    if (view.getUint16(offset + (i * 12), little) === 0x0112)
 		                    {
 		                        return callback(view.getUint16(offset + (i * 12) + 8, little));
 		                    }
 		                }
 		            }
-		            else if ((marker & 0xFF00) != 0xFF00)
+		            else if ((marker & 0xFF00) !== 0xFF00)
 		            {
 		                break;
 		            }
