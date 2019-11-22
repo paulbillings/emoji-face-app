@@ -162,9 +162,6 @@ class App extends Component {
 		
 		let img = new Image();
 
-
-			//img.src = document.getElementById("inputImage").src;
-
 		img.onload = function() {
 	  		let width = img.width;
     		let height = img.height;
@@ -180,11 +177,8 @@ class App extends Component {
       		canvas.height = height;
     	}
 
-	    	
-	    	
-		
-	  	// transform context before drawing image
-		switch (srcOrientation) {
+	// transform context before drawing image
+	switch (srcOrientation) {
       case 2: ctx.transform(-1, 0, 0, 1, width, 0); break;
       case 3: ctx.transform(-1, 0, 0, -1, width, height ); break;
       case 4: ctx.transform(1, 0, 0, -1, 0, height ); break;
@@ -194,20 +188,12 @@ class App extends Component {
       case 8: ctx.transform(0, -1, 1, 0, 0, width); break;
       default: break;
     }
-    	
 
-		// draw image
+	// draw image
     ctx.drawImage(img, 0, 0)
-    //ctx.drawImage(img, 0, 0, newWidth, newHeight, 0, 0, 400, 500);
-    //ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
-
-    // ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
-	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
-
-		// export base64
-		
-			callback(canvas.toDataURL());
-		
+    
+	// export base64
+	callback(canvas.toDataURL());
 		
   };
 
@@ -215,77 +201,54 @@ class App extends Component {
 	
 }
 
-
-	
-
-
 	onInputChange = (event) => {
 		if (event.target.files !== null) {
 			//local upload
 			this.setState({localUpload: true});
-			// console.log("local", event.target.files[0]);
+			console.log("local", event.target.files[0]);
+			//find out exif of image
+  				let imageExif = 6;
+				this.getOrientation(event.target.files[0], function(orientation) {
+					        console.log('orientation: ' + orientation);
+					        imageExif = orientation;
+				});
+
+
 			let preview = "";
 			let input = "";
 			let dataURL = "";
 			let base64 = "";
 			let reader = new FileReader();
 			
-
 			reader.onload = (e) => {
     			
-    				dataURL = reader.result;
-    				//this.setState({imageUrl: dataURL});
-    				//rotate when exif 6
-    				//document.getElementById("inputImage").style.transform = "rotate(90deg)";
+	    		dataURL = reader.result;
+	    				
+	    		let newImage = document.getElementById("inputImage");
 
+	    		
+	    		console.log("hopefully Image O: ", imageExif);
+	    		this.resetOrientation(dataURL, imageExif, function(resetBase64Image) {
+						console.log("newImage", resetBase64Image);
+						newImage.src = resetBase64Image;
+					})
 
-    		
+	    		document.getElementById("inputImage").onload = () => {
+	    			
+	    			console.log("loaded");
+	    			//this.setState({imageUrl: dataURL});
+	    			this.setState({imageUrl: newImage.src})
+	    			this.emojifyFace();
 
-    		let newImage = document.getElementById("inputImage");
-
-    		this.resetOrientation(dataURL, 6, function(resetBase64Image) {
-					console.log("newImage", resetBase64Image);
-					newImage.src = resetBase64Image;
-					
-				})
-
-    		document.getElementById("inputImage").onload = () => {
-    			
-    			console.log("loaded");
-    			//this.setState({imageUrl: dataURL});
-    			this.setState({imageUrl: newImage.src})
-    			this.imageLoader();
-
-    			base64 = newImage.src.slice(newImage.src.indexOf(',')+1);
-    			let dataLocal = {base64: base64};
-    			// console.log("new data local", base64);
-    			this.setState({input: dataLocal});
-    		}
-
-
-
-    		
-
-    			// base64 = dataURL.slice(dataURL.indexOf(',')+1);
-    			// let dataLocal = {base64: base64};
-    			// // console.log("new data local", base64);
-    			// this.setState({input: dataLocal});
-    			
-    			
-    			
-    			
+	    			base64 = newImage.src.slice(newImage.src.indexOf(',')+1);
+	    			let dataLocal = {base64: base64};
+	    			// console.log("new data local", base64);
+	    			this.setState({input: dataLocal});
+    			}
+	
   			}
   			input = reader.readAsDataURL(event.target.files[0]);
-  			// console.log("input", input);
   			
-  			//find out exif of image
-  			let imageExif = 6;	
-				this.getOrientation(event.target.files[0], function(orientation) {
-					        console.log('orientation: ' + orientation);
-					        imageExif = orientation;
-					    });
-
-			
 
 		} else {
 			//online URL
@@ -293,6 +256,9 @@ class App extends Component {
 			// console.log("online", event.target.value);
 			this.setState({input: event.target.value});
 		}
+
+		
+				
 
 		//this.emojifyFace();
 	}

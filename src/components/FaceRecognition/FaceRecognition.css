@@ -24,6 +24,7 @@
 }
 
 #inputImage {
+    image-orientation: from-image;
     display: none;
 }
 
