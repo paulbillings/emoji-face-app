@@ -85,23 +85,138 @@ class App extends Component {
 
 
 	emojifyFace = () => {
-		let ctx1 = this.state.ctx;
-    	this.state.canvas.width = document.getElementById("inputImage").width;
-    	this.state.canvas.height = document.getElementById("inputImage").height;
-    	let newImage = document.getElementById("inputImage");
-    	//get ratio to fit image into canvas nicely
-    	let canvas = ctx1.canvas ;
-	   	let ratio = newImage.width / newImage.naturalWidth    ;
-	   	let newHeight = newImage.naturalHeight*ratio;
-	   	this.setState({height: newHeight});
-	   	console.log("height:", newImage.height);
-	   	console.log("ratio:", ratio);
-	   	console.log("new height:", newHeight);
-    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
-		// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
-        //           		0, 0, canvas.width, canvas.height); // destination rectangle
-    	ctx1.fillText("Emojified by Paul Billings", 280, newHeight - 10)
+		//rotate when exif 6
+					//document.getElementById("inputImage").style.transform = "rotate(90deg)";
+		document.getElementById("inputImage").onload = () => {
+			let ctx1 = this.state.ctx;
+	    	this.state.canvas.width = document.getElementById("inputImage").width;
+	    	this.state.canvas.height = document.getElementById("inputImage").height;
+	    	let newImage = document.getElementById("inputImage");
+	    	//get ratio to fit image into canvas nicely
+	    	let canvas = ctx1.canvas;
+		   	let ratio = newImage.width / newImage.naturalWidth;
+		   	let newHeight = newImage.naturalHeight*ratio;
+		   	this.setState({height: newHeight});
+		   	console.log("height:", newImage.height);
+		   	console.log("ratio:", ratio);
+		   	console.log("new height:", newHeight);
+	    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
+			// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
+	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
+	    	ctx1.fillText("Emojified by Paul Billings", 280, newHeight - 10)
+    	}
 	}
+
+	
+		//getOrientation from https://stackoverflow.com/a/32490603/10395024
+		getOrientation = (file, callback) => {
+		    var reader = new FileReader();
+		    reader.onload = function(e) {
+
+		        var view = new DataView(e.target.result);
+		        if (view.getUint16(0, false) != 0xFFD8)
+		        {
+		            return callback(-2);
+		        }
+		        var length = view.byteLength, offset = 2;
+		        while (offset < length) 
+		        {
+		            if (view.getUint16(offset+2, false) <= 8) return callback(-1);
+		            var marker = view.getUint16(offset, false);
+		            offset += 2;
+		            if (marker == 0xFFE1) 
+		            {
+		                if (view.getUint32(offset += 2, false) != 0x45786966) 
+		                {
+		                    return callback(-1);
+		                }
+
+		                var little = view.getUint16(offset += 6, false) == 0x4949;
+		                offset += view.getUint32(offset + 4, little);
+		                var tags = view.getUint16(offset, little);
+		                offset += 2;
+		                for (var i = 0; i < tags; i++)
+		                {
+		                    if (view.getUint16(offset + (i * 12), little) == 0x0112)
+		                    {
+		                        return callback(view.getUint16(offset + (i * 12) + 8, little));
+		                    }
+		                }
+		            }
+		            else if ((marker & 0xFF00) != 0xFF00)
+		            {
+		                break;
+		            }
+		            else
+		            { 
+		                offset += view.getUint16(offset, false);
+		            }
+		        }
+		        return callback(-1);
+		    };
+		    reader.readAsArrayBuffer(file);
+		}
+
+
+	resetOrientation = (srcBase64, srcOrientation, callback) => {
+		
+		let img = new Image();
+
+
+			//img.src = document.getElementById("inputImage").src;
+
+		img.onload = function() {
+	  		let width = img.width;
+    		let height = img.height;
+        	let canvas = document.createElement('canvas');
+	  		let ctx = canvas.getContext("2d");
+		
+    // set proper canvas dimensions before transform & export
+		if (4 < srcOrientation && srcOrientation < 9) {
+    		canvas.width = height;
+      		canvas.height = width;
+    	} else {
+    		canvas.width = width;
+      		canvas.height = height;
+    	}
+
+	    	
+	    	
+		
+	  	// transform context before drawing image
+		switch (srcOrientation) {
+      case 2: ctx.transform(-1, 0, 0, 1, width, 0); break;
+      case 3: ctx.transform(-1, 0, 0, -1, width, height ); break;
+      case 4: ctx.transform(1, 0, 0, -1, 0, height ); break;
+      case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
+      case 6: ctx.transform(0, 1, -1, 0, height , 0); break;
+      case 7: ctx.transform(0, -1, -1, 0, height , width); break;
+      case 8: ctx.transform(0, -1, 1, 0, 0, width); break;
+      default: break;
+    }
+    	
+
+		// draw image
+    ctx.drawImage(img, 0, 0)
+    //ctx.drawImage(img, 0, 0, newWidth, newHeight, 0, 0, 400, 500);
+    //ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, 400, newHeight);
+
+    // ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
+	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
+
+		// export base64
+		
+			callback(canvas.toDataURL());
+		
+		
+  };
+
+	img.src = srcBase64;
+	
+}
+
+
+	
 
 
 	onInputChange = (event) => {
@@ -114,20 +229,63 @@ class App extends Component {
 			let dataURL = "";
 			let base64 = "";
 			let reader = new FileReader();
+			
+
 			reader.onload = (e) => {
-    			dataURL = reader.result;
-    			this.setState({imageUrl: dataURL});
-    			document.getElementById("inputImage").onload = () => {
-    				console.log("loaded");
-    				this.emojifyFace();
-    			}
-    			base64 = dataURL.slice(dataURL.indexOf(',')+1);
+    			
+    				dataURL = reader.result;
+    				//this.setState({imageUrl: dataURL});
+    				//rotate when exif 6
+    				//document.getElementById("inputImage").style.transform = "rotate(90deg)";
+
+
+    		
+
+    		let newImage = document.getElementById("inputImage");
+
+    		this.resetOrientation(dataURL, 6, function(resetBase64Image) {
+					console.log("newImage", resetBase64Image);
+					newImage.src = resetBase64Image;
+					
+				})
+
+    		document.getElementById("inputImage").onload = () => {
+    			
+    			console.log("loaded");
+    			//this.setState({imageUrl: dataURL});
+    			this.setState({imageUrl: newImage.src})
+    			this.imageLoader();
+
+    			base64 = newImage.src.slice(newImage.src.indexOf(',')+1);
     			let dataLocal = {base64: base64};
     			// console.log("new data local", base64);
     			this.setState({input: dataLocal});
+    		}
+
+
+
+    		
+
+    			// base64 = dataURL.slice(dataURL.indexOf(',')+1);
+    			// let dataLocal = {base64: base64};
+    			// // console.log("new data local", base64);
+    			// this.setState({input: dataLocal});
+    			
+    			
+    			
+    			
   			}
   			input = reader.readAsDataURL(event.target.files[0]);
   			// console.log("input", input);
+  			
+  			//find out exif of image
+  			let imageExif = 6;	
+				this.getOrientation(event.target.files[0], function(orientation) {
+					        console.log('orientation: ' + orientation);
+					        imageExif = orientation;
+					    });
+
+			
 
 		} else {
 			//online URL
@@ -135,13 +293,15 @@ class App extends Component {
 			// console.log("online", event.target.value);
 			this.setState({input: event.target.value});
 		}
+
+		//this.emojifyFace();
 	}
 
 	onButtonSubmit = () => {
 		if (this.state.localUpload === false) {
 			this.setState({imageUrl: this.state.input})
 			document.getElementById("inputImage").onload = () => {
-    				console.log("loaded");
+    				console.log("loaded2");
 					this.emojifyFace();
 			}
 		} else {
