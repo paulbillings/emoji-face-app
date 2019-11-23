@@ -115,7 +115,13 @@ class App extends Component {
 	    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, this.state.width, newHeight);
 			// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
 	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
-	    	ctx1.fillText("Emojified by Paul Billings", this.state.width - 130, newHeight - 10)
+	        ctx1.shadowOffsetX = 2;
+ 			ctx1.shadowOffsetY = 2;
+  			ctx1.shadowBlur = 2;
+	        ctx1.fillStyle = "black";
+	        ctx1.shadowColor = "white";
+	        ctx1.font = 'bold 12px serif';
+	    	ctx1.fillText("Emojified by Paul Billings", this.state.width - 140, newHeight - 10)
     	//}
 	}
 
@@ -140,7 +146,13 @@ class App extends Component {
 	    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, this.state.width, newHeight);
 			// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
 	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
-	    	ctx1.fillText("Emojified by Paul Billings", this.state.width - 130, newHeight - 10)
+	        ctx1.shadowOffsetX = 2;
+ 			ctx1.shadowOffsetY = 2;
+  			ctx1.shadowBlur = 2;
+	        ctx1.fillStyle = "black";
+	        ctx1.shadowColor = "white";
+	        ctx1.font = 'bold 12px serif';
+	    	ctx1.fillText("Emojified by Paul Billings", this.state.width - 140, newHeight - 10)
     	}
 	}
 

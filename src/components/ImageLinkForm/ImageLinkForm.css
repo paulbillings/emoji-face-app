@@ -25,7 +25,8 @@
 		}
 
 		#urlupload {
-			width: 90%;
+			display: none;
+			/*width: 90%;*/
 		}
 
 		#emojiButton {

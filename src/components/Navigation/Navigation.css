@@ -1,0 +1,28 @@
+#logo {
+	max-width: 30%;
+}
+
+#loginButton {
+	font-size: 1.5em;
+}
+
+#registerButton {
+	font-size: 1.5em;
+}
+
+
+@media only screen and (max-width: 760px) {
+
+	#logo {
+		max-width: 40%;
+	}
+
+	#loginButton {
+		font-size: 1em;
+	}
+
+	#registerButton {
+		font-size: 1em;
+	}
+
+}
