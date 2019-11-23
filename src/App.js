@@ -5,13 +5,46 @@ import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Hero from "./components/Hero/Hero";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Clarifai from "clarifai";
-import balloons from "./emojiBalloon.jpg";
+import balloons from "./images/emojiBalloon.jpg";
+import happy from "./images/faces/happy.png";
+import cowboy from "./images/faces/cowboy.png";
+import eyeroll from "./images/faces/eyeroll.png";
+import fearful from "./images/faces/fearful.png";
+import hot from "./images/faces/hot.png";
+import hugging from "./images/faces/hugging.png";
+import hungry from "./images/faces/hungry.png";
+import neutral from "./images/faces/neutral.png";
+import poop from "./images/faces/poop.png";
+import smiling from "./images/faces/smiling.png";
+import thinking from "./images/faces/thinking.png";
+import tired from "./images/faces/tired.png";
 
 const app = new Clarifai.App({
  apiKey: '14911963b80443fab726c30bd4996904'
 });
 
 	
+
+        const images = new Array;
+            images[1] = cowboy;
+            images[2] = eyeroll;
+            images[3] = fearful;
+            images[4] = happy;
+            images[5] = hot;
+            images[6] = hugging;
+            images[7] = hungry;
+            images[8] = neutral;
+            images[9] = poop;
+            images[10] = smiling;
+            images[11] = thinking;
+            images[12] = tired;
+
+        const imgCount = 12;
+        //const dir = 'images/faces';
+        let randomCount = 1;
+
+
+
 
 class App extends Component {
 	
@@ -27,6 +60,8 @@ class App extends Component {
 			ctx: "",
 			height: 0,
 			width: 500,
+			faceEmojiURL: "url(" + poop + ")",
+			faceEmoji: poop,
 		}
 	}
 
@@ -87,8 +122,10 @@ class App extends Component {
 		let width = this.state.width - (box.leftCol + box.rightCol)
 		let height = this.state.height - (box.topRow + box.bottomRow);
 		console.log("face width:", width, " face height:", height);
+		let isThisRight = this.state.faceEmojiURL;
+		console.log(isThisRight);
 		let face = new Image();
-		face.src = "https://cdn.shopify.com/s/files/1/1061/1924/products/Slightly_Smiling_Face_Emoji_87fdae9b-b2af-4619-a37f-e484c5e2e7a4_large.png?v=1480481059"
+		face.src = this.state.faceEmoji;
 		ctx.drawImage(face, box.leftCol, box.topRow, width, height);
 		
 	}
@@ -115,9 +152,6 @@ class App extends Component {
 	    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, this.state.width, newHeight);
 			// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
 	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
-	        ctx1.shadowOffsetX = 2;
- 			ctx1.shadowOffsetY = 2;
-  			ctx1.shadowBlur = 2;
 	        ctx1.fillStyle = "black";
 	        ctx1.shadowColor = "white";
 	        ctx1.font = 'bold 12px serif';
@@ -146,9 +180,6 @@ class App extends Component {
 	    	ctx1.drawImage(newImage, 0, 0, newImage.naturalWidth, newImage.naturalHeight, 0, 0, this.state.width, newHeight);
 			// ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
 	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
-	        ctx1.shadowOffsetX = 2;
- 			ctx1.shadowOffsetY = 2;
-  			ctx1.shadowBlur = 2;
 	        ctx1.fillStyle = "black";
 	        ctx1.shadowColor = "white";
 	        ctx1.font = 'bold 12px serif';
@@ -261,6 +292,19 @@ class App extends Component {
 			let reader = new FileReader();
 			let newImage = "";
 
+			//set which emoji face to use
+			console.log("image6", images[6]);
+			let isThisRight2 = this.state.faceEmojiURL;
+			console.log(isThisRight2);
+			randomCount = Math.round(Math.random() * (imgCount - 1)) + 1;	
+	        let newFace = images[randomCount]
+	        this.setState({faceEmoji: newFace});
+	        let newFaceToState = "url(" + newFace + ")";
+	        console.log("newFaceToState", newFaceToState);
+	        console.log("newFace", newFace);
+	        console.log("happy", happy);
+	        this.setState({faceEmojiURL: newFaceToState});
+
 		if (event.target.files !== null) {
 			//local upload
 			this.setState({localUpload: true});
@@ -336,7 +380,7 @@ class App extends Component {
 		      	onInputChange={this.onInputChange} 
 		      	onButtonSubmit={this.onButtonSubmit}
 		      />
-		      <FaceRecognition width={this.state.width} height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
+		      <FaceRecognition faceEmojiURL={this.state.faceEmojiURL} width={this.state.width} height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
 		    </div>
 		);
 	}
