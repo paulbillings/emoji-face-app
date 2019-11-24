@@ -11,10 +11,12 @@ import HeroPic from "./emojiBalls.jpg";
 
 const styles = theme => ({
   root: {
-   padding: theme.spacing(3, 2),
-   height: "80vh",
-   background: "url(" + HeroPic + ") no-repeat center center",
-   backgroundSize: "cover",
+    padding: theme.spacing(3, 2),
+    height: "80vh",
+    background: "url(" + HeroPic + ") no-repeat center center",
+    backgroundSize: "cover",
+    color: "black",
+    textShadow: "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white",
   },
   header: {
     marginTop: "5vh",

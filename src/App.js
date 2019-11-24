@@ -4,20 +4,25 @@ import Navigation from "./components/Navigation/Navigation";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Hero from "./components/Hero/Hero";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
+import Footer from "./components/Footer/Footer";
 import Clarifai from "clarifai";
 import balloons from "./images/emojiBalloon.jpg";
 import happy from "./images/faces/happy.png";
-import cowboy from "./images/faces/cowboy.png";
 import eyeroll from "./images/faces/eyeroll.png";
 import fearful from "./images/faces/fearful.png";
 import hot from "./images/faces/hot.png";
-import hugging from "./images/faces/hugging.png";
 import hungry from "./images/faces/hungry.png";
 import neutral from "./images/faces/neutral.png";
 import poop from "./images/faces/poop.png";
 import smiling from "./images/faces/smiling.png";
 import thinking from "./images/faces/thinking.png";
-import tired from "./images/faces/tired.png";
+import geek from "./images/faces/geek.png";
+import happytears from "./images/faces/happytears.png";
+import redcheeks from "./images/faces/redcheeks.png";
+import wink from "./images/faces/wink.png";
+import crazy from "./images/faces/crazy.png";
+import sad from "./images/faces/sad.png";
+import drunk from "./images/faces/drunk.png";
 import LoadingOverlay from 'react-loading-overlay';
 const app = new Clarifai.App({
  apiKey: '14911963b80443fab726c30bd4996904'
@@ -26,20 +31,25 @@ const app = new Clarifai.App({
 	
 
         const images = new Array;
-            images[1] = cowboy;
-            images[2] = eyeroll;
-            images[3] = fearful;
-            images[4] = happy;
-            images[5] = hot;
-            images[6] = hugging;
-            images[7] = hungry;
-            images[8] = neutral;
-            images[9] = poop;
-            images[10] = smiling;
-            images[11] = thinking;
-            images[12] = tired;
+            images[1] = eyeroll;
+            images[2] = fearful;
+            images[3] = happy;
+            images[4] = hot;
+            images[5] = hungry;
+            images[6] = neutral;
+            images[7] = poop;
+            images[8] = smiling;
+            images[9] = thinking;
+            images[10] = geek;
+            images[11] = happytears;
+            images[12] = redcheeks;
+            images[13] = wink;
+            images[14] = crazy;
+            images[15] = sad;
+            images[16] = drunk;
+           
 
-        const imgCount = 12;
+        const imgCount = 16;
         //const dir = 'images/faces';
         let randomCount = 1;
 
@@ -400,6 +410,7 @@ class App extends Component {
 		      			onButtonSubmit={this.onButtonSubmit}
 		      		/>
 		      		<FaceRecognition faceEmojiURL={this.state.faceEmojiURL} width={this.state.width} height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
+		      		<Footer />
 		      	</LoadingOverlay>
 		    </div>
 		);
