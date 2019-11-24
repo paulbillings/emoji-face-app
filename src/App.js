@@ -118,7 +118,7 @@ class App extends Component {
 	displayFaceBox = (box) => {
 		// console.log(box);
 		this.setState({box: box});
-		let ctx = this.state.ctx;
+		let ctx1 = this.state.ctx;
 		let width = this.state.width - (box.leftCol + box.rightCol)
 		let height = this.state.height - (box.topRow + box.bottomRow);
 		console.log("face width:", width, " face height:", height);
@@ -126,7 +126,9 @@ class App extends Component {
 		console.log(isThisRight);
 		let face = new Image();
 		face.src = this.state.faceEmoji;
-		ctx.drawImage(face, box.leftCol, box.topRow, width, height);
+		face.onload = function(){
+    		ctx1.drawImage(face, box.leftCol, box.topRow, width, height);
+		};
 		
 	}
 
