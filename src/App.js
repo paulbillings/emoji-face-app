@@ -18,7 +18,7 @@ import poop from "./images/faces/poop.png";
 import smiling from "./images/faces/smiling.png";
 import thinking from "./images/faces/thinking.png";
 import tired from "./images/faces/tired.png";
-
+import LoadingOverlay from 'react-loading-overlay';
 const app = new Clarifai.App({
  apiKey: '14911963b80443fab726c30bd4996904'
 });
@@ -62,6 +62,7 @@ class App extends Component {
 			width: 500,
 			faceEmojiURL: "url(" + poop + ")",
 			faceEmoji: poop,
+			isActive: false,
 		}
 	}
 
@@ -358,31 +359,48 @@ class App extends Component {
 	}
 
 	onButtonSubmit = () => {
+		this.setState({isActive: true});
 		console.log("NEW: input= ", this.state.input);
 		app.models.predict(
 			"a403429f2ddf4b49b307e318f00e528b",
 			this.state.input)
 			.then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
 		    .catch(err => {
+		    	this.setState({isActive: false});
 		    	console.log("error", err);
 		    	this.setState({imageUrl: balloons});
 		    	this.imageLoader();
 		    	alert("Error, no image or faces to Emojify");
 		    })
-		document.getElementById("urlupload").value='';
-		document.getElementById("localupload").value='';
+		    .then(response => this.setState({isActive: false}))
+			document.getElementById("urlupload").value='';
+			document.getElementById("localupload").value='';
+		
 	}
 
 	render() {
 		return (
 		    <div className="App">
-		      <Navigation />
-		      <Hero />
-		      <ImageLinkForm 
-		      	onInputChange={this.onInputChange} 
-		      	onButtonSubmit={this.onButtonSubmit}
-		      />
-		      <FaceRecognition faceEmojiURL={this.state.faceEmojiURL} width={this.state.width} height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
+		    	<LoadingOverlay
+				  	active={this.state.isActive}
+				  	spinner
+				  	text='Emojifyiiiiiing...'
+				  	styles={{
+        				content: (base) => ({
+          					...base,
+          					position: "relative",
+          					top: '350px'
+        					})
+      					}}
+				>
+		      		<Navigation />
+		      		<Hero />
+		      		<ImageLinkForm 
+		      			onInputChange={this.onInputChange} 
+		      			onButtonSubmit={this.onButtonSubmit}
+		      		/>
+		      		<FaceRecognition faceEmojiURL={this.state.faceEmojiURL} width={this.state.width} height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
+		      	</LoadingOverlay>
 		    </div>
 		);
 	}
