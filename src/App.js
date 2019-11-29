@@ -65,7 +65,7 @@ class App extends Component {
 			input: "",
 			imageUrl: "",
 			localUpload: false,
-			box: {},
+			box: [],
 			canvas: "",
 			ctx: "",
 			height: 0,
@@ -111,34 +111,41 @@ class App extends Component {
 	}
 
 	
-	calculateFaceLocation = (data) => {
-		const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-		const image = document.getElementById("inputImage");
-		const width = Number(image.width);
-		const height = Number(image.height);
-		console.log("width:", width, " height:", height);
-		console.log(clarifaiFace.left_col * width - 25);
-		return {
-			leftCol: clarifaiFace.left_col * width - 15,
-			topRow: clarifaiFace.top_row * height,
-			rightCol: width - (clarifaiFace.right_col * width) - 15,
-			bottomRow: height - (clarifaiFace.bottom_row * height)
-		}
+	calculateFaceLocations = (data) => {
+		return data.outputs[0].data.regions.map(face => {
+			const clarifaiFace = face.region_info.bounding_box;
+			const image = document.getElementById("inputImage");
+			const width = Number(image.width);
+			const height = Number(image.height);
+			console.log("width:", width, " height:", height);
+			console.log(clarifaiFace.left_col * width - 25);
+			return {
+				leftCol: clarifaiFace.left_col * width - 15,
+				topRow: clarifaiFace.top_row * height,
+				rightCol: width - (clarifaiFace.right_col * width) - 15,
+				bottomRow: height - (clarifaiFace.bottom_row * height)
+			}
+		});
+		
 	}
 
 	displayFaceBox = (box) => {
 		// console.log(box);
 		this.setState({box: box});
 		let ctx1 = this.state.ctx;
-		let width = this.state.width - (box.leftCol + box.rightCol)
-		let height = this.state.height - (box.topRow + box.bottomRow);
-		console.log("face width:", width, " face height:", height);
+		let width = this.state.width;
+		let height = this.state.height;
 		let isThisRight = this.state.faceEmojiURL;
-		console.log(isThisRight);
 		let face = new Image();
 		face.src = this.state.faceEmoji;
 		face.onload = function(){
-    		ctx1.drawImage(face, box.leftCol, box.topRow, width, height);
+			box.map(box => {
+				let boxWidth = width - (box.leftCol + box.rightCol)
+				let boxHeight = height - (box.topRow + box.bottomRow);
+				console.log("face width:", width, " face height:", height);
+				console.log(isThisRight);
+				ctx1.drawImage(face, box.leftCol, box.topRow, boxWidth, boxHeight);
+			})
 		};
 		
 	}
@@ -374,7 +381,7 @@ class App extends Component {
 		app.models.predict(
 			"a403429f2ddf4b49b307e318f00e528b",
 			this.state.input)
-			.then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+			.then(response => this.displayFaceBox(this.calculateFaceLocations(response)))
 		    .catch(err => {
 		    	this.setState({isActive: false});
 		    	console.log("error", err);
