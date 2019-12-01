@@ -136,17 +136,22 @@ class App extends Component {
 		let width = this.state.width;
 		let height = this.state.height;
 		let isThisRight = this.state.faceEmojiURL;
-		let face = new Image();
-		face.src = this.state.faceEmoji;
-		face.onload = function(){
+		
+
 			box.map(box => {
-				let boxWidth = width - (box.leftCol + box.rightCol)
-				let boxHeight = height - (box.topRow + box.bottomRow);
-				console.log("face width:", width, " face height:", height);
-				console.log(isThisRight);
-				ctx1.drawImage(face, box.leftCol, box.topRow, boxWidth, boxHeight);
-			})
-		};
+				let face = new Image();
+				let randomCount = Math.round(Math.random() * (imgCount - 1)) + 1;	
+	        	face.src = images[randomCount]
+				//face.src = this.state.faceEmoji;
+				face.onload = function(){
+					let boxWidth = width - (box.leftCol + box.rightCol)
+					let boxHeight = height - (box.topRow + box.bottomRow);
+					console.log("face width:", width, " face height:", height);
+					console.log(isThisRight);
+					ctx1.drawImage(face, box.leftCol, box.topRow, boxWidth, boxHeight);
+				}
+			});
+		
 		
 	}
 
