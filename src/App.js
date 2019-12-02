@@ -118,7 +118,7 @@ class App extends Component {
 			const width = Number(image.width);
 			const height = Number(image.height);
 			console.log("width:", width, " height:", height);
-			console.log(clarifaiFace.left_col * width - 25);
+			console.log(clarifaiFace.left_col * width - 15);
 			return {
 				leftCol: clarifaiFace.left_col * width - 15,
 				topRow: clarifaiFace.top_row * height,
@@ -147,8 +147,16 @@ class App extends Component {
 					let boxWidth = width - (box.leftCol + box.rightCol)
 					let boxHeight = height - (box.topRow + box.bottomRow);
 					console.log("face width:", width, " face height:", height);
+					console.log("face.src", face.src);
 					console.log(isThisRight);
-					ctx1.drawImage(face, box.leftCol, box.topRow, boxWidth, boxHeight);
+					if (face.src.includes("poop")) {
+						console.log("poop-before", box.topRow);
+						ctx1.drawImage(face, box.leftCol - 10, box.topRow - 35, boxWidth + 20, boxHeight + 35);
+						console.log("poop-after", box.topRow);
+					} else {
+						ctx1.drawImage(face, box.leftCol, box.topRow, boxWidth, boxHeight);
+					}
+					
 				}
 			});
 		
