@@ -4,6 +4,7 @@ import Navigation from "./components/Navigation/Navigation";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Hero from "./components/Hero/Hero";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
+import SaveImage from "./components/SaveImage/SaveImage";
 import Footer from "./components/Footer/Footer";
 import Clarifai from "clarifai";
 import balloons from "./images/emojiBalloon.jpg";
@@ -97,6 +98,7 @@ class App extends Component {
 	imageLoader = () => {
 		document.getElementById("inputImage").onload = () => {
 			let newImage = document.getElementById("inputImage");
+			newImage.setAttribute('crossorigin', 'anonymous'); // works for me
     		//get ratio to fit image into canvas nicely
     		let ctx1 = this.state.ctx;
     		let canvas1 = ctx1.canvas ;
@@ -140,6 +142,7 @@ class App extends Component {
 
 			box.map(box => {
 				let face = new Image();
+				face.setAttribute('crossorigin', 'anonymous'); // works for me
 				let randomCount = Math.round(Math.random() * (imgCount - 1)) + 1;	
 	        	face.src = images[randomCount]
 				//face.src = this.state.faceEmoji;
@@ -172,6 +175,7 @@ class App extends Component {
 	    	this.state.canvas.width = document.getElementById("inputImage").width;
 	    	this.state.canvas.height = document.getElementById("inputImage").height;
 	    	let newImage = document.getElementById("inputImage");
+	    	newImage.setAttribute('crossorigin', 'anonymous'); // works for me
 	    	console.log("image in emojyface:", newImage);
 	    	//alert(newImage.src);
 	    	//get ratio to fit image into canvas nicely
@@ -200,6 +204,7 @@ class App extends Component {
 	    	this.state.canvas.width = document.getElementById("inputImage").width;
 	    	this.state.canvas.height = document.getElementById("inputImage").height;
 	    	let newImage = document.getElementById("inputImage");
+	    	newImage.setAttribute('crossorigin', 'anonymous'); // works for me
 	    	console.log("image in emojifyFaceURL:", newImage);
 	    	//alert(newImage.src);
 	    	//get ratio to fit image into canvas nicely
@@ -408,6 +413,15 @@ class App extends Component {
 		
 	}
 
+	saveImage = () => {
+		let canvas = document.getElementById("canvas");
+		let urldata = canvas.toDataURL();
+		console.log("save image", urldata);
+		var newTab = window.open();
+		newTab.document.body.innerHTML = '<img src=' + urldata + ' background-size: 100%' + '>';
+		
+	}
+
 	render() {
 		return (
 		    <div className="App">
@@ -430,6 +444,7 @@ class App extends Component {
 		      			onButtonSubmit={this.onButtonSubmit}
 		      		/>
 		      		<FaceRecognition faceEmojiURL={this.state.faceEmojiURL} width={this.state.width} height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
+		      		<SaveImage saveImage={this.saveImage}/>
 		      		<Footer />
 		      	</LoadingOverlay>
 		    </div>
