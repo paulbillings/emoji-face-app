@@ -99,7 +99,7 @@ class App extends Component {
 	imageLoader = () => {
 		document.getElementById("inputImage").onload = () => {
 			let newImage = document.getElementById("inputImage");
-			newImage.setAttribute('crossorigin', 'anonymous'); // works for me
+			//newImage.setAttribute('crossorigin', 'anonymous'); // works for me
     		//get ratio to fit image into canvas nicely
     		let ctx1 = this.state.ctx;
     		let canvas1 = ctx1.canvas ;
@@ -143,7 +143,7 @@ class App extends Component {
 
 			box.map(box => {
 				let face = new Image();
-				face.setAttribute('crossorigin', 'anonymous'); // works for me
+				//face.setAttribute('crossorigin', 'anonymous'); // works for me
 				let randomCount = Math.round(Math.random() * (imgCount - 1)) + 1;	
 	        	face.src = images[randomCount]
 				//face.src = this.state.faceEmoji;
@@ -416,11 +416,20 @@ class App extends Component {
 
 	saveImage = () => {
 		let canvas = document.getElementById("canvas");
-		let urldata = canvas.toDataURL();
-		console.log("save image", urldata);
-		var newTab = window.open();
-		newTab.document.body.innerHTML = '<img src=' + urldata + ' background-size: 100%' + '>';
+		//let urldata = canvas.toDataURL();
+		//console.log("save image", urldata);
+		//var newTab = window.open();
+		//newTab.document.body.innerHTML = '<img src=' + urldata + ' background-size: 100%' + '>';
 		
+		// let link = document.createElement('a');
+		// link.href = canvas.toDataURL();
+  //   	link.download = "mypainting.png";
+    	
+    	let downloadedImg = new Image;
+  		downloadedImg.crossOrigin = "Anonymous";
+  		downloadedImg.src = canvas.toDataURL();
+  		downloadedImg.download = "myPic.png";
+
 	}
 
 	render() {
