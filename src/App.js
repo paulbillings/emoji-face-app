@@ -25,8 +25,9 @@ import crazy from "./images/faces/crazy.png";
 import sad from "./images/faces/sad.png";
 import drunk from "./images/faces/drunk.png";
 import LoadingOverlay from 'react-loading-overlay';
+
 const app = new Clarifai.App({
- apiKey: '14911963b80443fab726c30bd4996904'
+ apiKey: '1949e5db69194d7cbb762c6988be5613'
 });
 
 	
