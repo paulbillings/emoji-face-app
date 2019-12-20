@@ -31,7 +31,7 @@ const app = new Clarifai.App({
 
 	
 
-        const images = new Array;
+        const images = new Array();
             images[0] = eyeroll;
             images[1] = fearful;
             images[2] = happy;
@@ -100,7 +100,7 @@ class App extends Component {
 			let newImage = document.getElementById("inputImage");
     		//get ratio to fit image into canvas nicely
     		let ctx1 = this.state.ctx;
-    		let canvas1 = ctx1.canvas ;
+    		//let canvas1 = ctx1.canvas ;
 	   		let ratio = newImage.width / newImage.naturalWidth    ;
 	   		let newHeight = newImage.naturalHeight*ratio;
 	   		this.setState({height: newHeight});
@@ -170,13 +170,13 @@ class App extends Component {
 					//document.getElementById("inputImage").style.transform = "rotate(90deg)";
 		//document.getElementById("inputImage").onload = () => {
 			let ctx1 = this.state.ctx;
-	    	this.state.canvas.width = document.getElementById("inputImage").width;
-	    	this.state.canvas.height = document.getElementById("inputImage").height;
+	    	//this.state.canvas.width = document.getElementById("inputImage").width;
+	    	//this.state.canvas.height = document.getElementById("inputImage").height;
 	    	let newImage = document.getElementById("inputImage");
 	    	console.log("image in emojyface:", newImage);
 	    	//alert(newImage.src);
 	    	//get ratio to fit image into canvas nicely
-	    	let canvas = ctx1.canvas;
+	    	//let canvas = ctx1.canvas;
 		   	let ratio = newImage.width / newImage.naturalWidth;
 		   	let newHeight = newImage.naturalHeight*ratio;
 		   	this.setState({height: newHeight});
@@ -198,13 +198,13 @@ class App extends Component {
 					//document.getElementById("inputImage").style.transform = "rotate(90deg)";
 		document.getElementById("inputImage").onload = () => {
 			let ctx1 = this.state.ctx;
-	    	this.state.canvas.width = document.getElementById("inputImage").width;
-	    	this.state.canvas.height = document.getElementById("inputImage").height;
+	    	//this.state.canvas.width = document.getElementById("inputImage").width;
+	    	//this.state.canvas.height = document.getElementById("inputImage").height;
 	    	let newImage = document.getElementById("inputImage");
 	    	console.log("image in emojifyFaceURL:", newImage);
 	    	//alert(newImage.src);
 	    	//get ratio to fit image into canvas nicely
-	    	let canvas = ctx1.canvas;
+	    	//let canvas = ctx1.canvas;
 		   	let ratio = newImage.width / newImage.naturalWidth;
 		   	let newHeight = newImage.naturalHeight*ratio;
 		   	this.setState({height: newHeight});
@@ -318,7 +318,7 @@ class App extends Component {
 
 	onInputChange = (event) => {
 
-			let preview = "";
+			//let preview = "";
 			let input = "";
 			let dataURL = "";
 			let base64 = "";

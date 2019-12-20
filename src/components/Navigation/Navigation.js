@@ -2,11 +2,7 @@ import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Container from '@material-ui/core/Container';
 import emojiLogo from "./emojiLogo.png";
 import "./Navigation.css";
 
@@ -41,11 +37,15 @@ const styles = theme => ({
         <AppBar position="static">
             <Toolbar>
                 <div className={classes.title} color="inherit">
-                	<img className={classes.logo} id="logo" src={emojiLogo} />
+                	<img className={classes.logo} alt="logo" id="logo" src={emojiLogo} />
                 </div>
                 <div className={classes.loginDiv}>
-                	<Button className={classes.login} id="loginButton" color="inherit">Login</Button>
-                	<Button className={classes.register} id="registerButton" color="inherit">Register</Button>
+                  {
+                    //when backend is up and running
+                	//<Button className={classes.login} id="loginButton" color="inherit">Login</Button>
+                	//<Button className={classes.register} id="registerButton" color="inherit">Register</Button>
+                  }
+                  Created by Paul Billings
                 </div>
             </Toolbar>
         </AppBar>
