@@ -32,22 +32,22 @@ const app = new Clarifai.App({
 	
 
         const images = new Array;
-            images[1] = eyeroll;
-            images[2] = fearful;
-            images[3] = happy;
-            images[4] = hot;
-            images[5] = hungry;
-            images[6] = neutral;
-            images[7] = poop;
-            images[8] = smiling;
-            images[9] = thinking;
-            images[10] = geek;
-            images[11] = happytears;
-            images[12] = redcheeks;
-            images[13] = wink;
-            images[14] = crazy;
-            images[15] = sad;
-            images[16] = drunk;
+            images[0] = eyeroll;
+            images[1] = fearful;
+            images[2] = happy;
+            images[3] = hot;
+            images[4] = hungry;
+            images[5] = neutral;
+            images[6] = poop;
+            images[7] = smiling;
+            images[8] = thinking;
+            images[9] = geek;
+            images[10] = happytears;
+            images[11] = redcheeks;
+            images[12] = wink;
+            images[13] = crazy;
+            images[14] = sad;
+            images[15] = drunk;
            
 
         const imgCount = 16;
