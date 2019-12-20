@@ -188,8 +188,8 @@ class App extends Component {
 	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
 	        ctx1.fillStyle = "black";
 	        ctx1.shadowColor = "white";
-	        ctx1.font = 'bold 12px serif';
-	    	ctx1.fillText("Emojified by Paul Billings", this.state.width - 140, newHeight - 10)
+	        ctx1.font = 'bold 16px Sans-serif';
+	    	ctx1.fillText("Emojified", this.state.width - 80, newHeight - 10)
     	//}
 	}
 
@@ -216,8 +216,8 @@ class App extends Component {
 	        //           		0, 0, canvas.width, canvas.height); // destination rectangle
 	        ctx1.fillStyle = "black";
 	        ctx1.shadowColor = "white";
-	        ctx1.font = 'bold 12px serif';
-	    	ctx1.fillText("Emojified by Paul Billings", this.state.width - 140, newHeight - 10)
+	        ctx1.font = 'bold 16px Sans-serif';
+	    	ctx1.fillText("Emojified", this.state.width - 80, newHeight - 10)
     	}
 	}
 
