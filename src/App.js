@@ -4,6 +4,7 @@ import Navigation from "./components/Navigation/Navigation";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Hero from "./components/Hero/Hero";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
+import SaveImage from "./components/SaveImage/SaveImage";
 import Footer from "./components/Footer/Footer";
 import Clarifai from "clarifai";
 import balloons from "./images/emojiBalloon.jpg";
@@ -409,6 +410,18 @@ class App extends Component {
 		
 	}
 
+	saveImage = () => {
+		let canvas = document.getElementById("canvas");
+		let urldata = canvas.toDataURL("image/png");
+		const link = document.createElement("a");
+		link.setAttribute("download", "emojifiedImage.png");
+		link.setAttribute("href", urldata);
+		link.click();
+
+		//clean up link
+		link.remove();
+	}
+
 	render() {
 		return (
 		    <div className="App">
@@ -431,6 +444,7 @@ class App extends Component {
 		      			onButtonSubmit={this.onButtonSubmit}
 		      		/>
 		      		<FaceRecognition faceEmojiURL={this.state.faceEmojiURL} width={this.state.width} height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
+		      		<SaveImage saveImage={this.saveImage}/>
 		      		<Footer />
 		      	</LoadingOverlay>
 		    </div>
