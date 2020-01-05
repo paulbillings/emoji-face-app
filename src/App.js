@@ -416,7 +416,14 @@ class App extends Component {
 
 	saveImage = () => {
 		let canvas = document.getElementById("canvas");
-		//let urldata = canvas.toDataURL();
+		let urldata = canvas.toDataURL("image/png");
+		const link = document.createElement("a");
+		link.setAttribute("download", "emojifiedImage.png");
+		link.setAttribute("href", urldata);
+		link.click();
+
+		//clean up link
+		link.remove();
 		//console.log("save image", urldata);
 		//var newTab = window.open();
 		//newTab.document.body.innerHTML = '<img src=' + urldata + ' background-size: 100%' + '>';
@@ -425,10 +432,12 @@ class App extends Component {
 		// link.href = canvas.toDataURL();
   //   	link.download = "mypainting.png";
     	
-    	let downloadedImg = new Image;
-  		downloadedImg.crossOrigin = "Anonymous";
-  		downloadedImg.src = canvas.toDataURL();
-  		downloadedImg.download = "myPic.png";
+    // 	let downloadedImg = new Image;
+  		// downloadedImg.crossOrigin = "Anonymous";
+  		// downloadedImg.src = canvas.toDataURL();
+  		// downloadedImg.download = "myPic.png";
+
+
 
 	}
 
