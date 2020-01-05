@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
-
+import "./SaveImage.css";
 
 
 const styles = theme => ({

@@ -5,6 +5,7 @@ import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Hero from "./components/Hero/Hero";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import SaveImage from "./components/SaveImage/SaveImage";
+import URLsave from "./components/URLsave/URLsave";
 import Footer from "./components/Footer/Footer";
 import Clarifai from "clarifai";
 import balloons from "./images/emojiBalloon.jpg";
@@ -66,7 +67,7 @@ class App extends Component {
 		this.state = {
 			input: "",
 			imageUrl: "",
-			localUpload: false,
+			localUpload: true,
 			box: [],
 			canvas: "",
 			ctx: "",
@@ -423,6 +424,7 @@ class App extends Component {
 	}
 
 	render() {
+		const isLocalUpload = this.state.localUpload;
 		return (
 		    <div className="App">
 		    	<LoadingOverlay
@@ -444,7 +446,13 @@ class App extends Component {
 		      			onButtonSubmit={this.onButtonSubmit}
 		      		/>
 		      		<FaceRecognition faceEmojiURL={this.state.faceEmojiURL} width={this.state.width} height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
-		      		<SaveImage saveImage={this.saveImage}/>
+		      		<div>
+		      			{isLocalUpload ? (
+		      				<SaveImage saveImage={this.saveImage}/>
+		      			) : (
+		      				<URLsave />
+		      			)}
+		      		</div>
 		      		<Footer />
 		      	</LoadingOverlay>
 		    </div>
