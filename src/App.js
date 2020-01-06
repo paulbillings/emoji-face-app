@@ -452,12 +452,10 @@ class App extends Component {
 		      		/>
 		      		<FaceRecognition faceEmojiURL={this.state.faceEmojiURL} width={this.state.width} height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
 		      		<div>
-		      			{isSaveableImage ? (
-			      			{isLocalUpload ? (
-			      				<SaveImage saveImage={this.saveImage}/>
-			      			) : (
-			      				<URLsave />
-			      			)}
+			      		{isLocalUpload && isSaveableImage ? (
+			      			<SaveImage saveImage={this.saveImage}/>
+			      		) : (
+			      			<URLsave />
 			      		)}
 		      		</div>
 		      		<Footer />
