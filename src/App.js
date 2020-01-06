@@ -76,6 +76,7 @@ class App extends Component {
 			faceEmojiURL: "url(" + poop + ")",
 			faceEmoji: poop,
 			isActive: false,
+			saveableImage: false,
 		}
 	}
 
@@ -340,6 +341,7 @@ class App extends Component {
 	        console.log("newFace", newFace);
 	        console.log("happy", happy);
 	        this.setState({faceEmojiURL: newFaceToState});
+	        this.setState({saveableImage: false});
 
 		if (event.target.files !== null) {
 			//local upload
@@ -393,12 +395,14 @@ class App extends Component {
 
 	onButtonSubmit = () => {
 		this.setState({isActive: true});
+		this.setState({saveableImage: true});
 		console.log("NEW: input= ", this.state.input);
 		app.models.predict(
 			"a403429f2ddf4b49b307e318f00e528b",
 			this.state.input)
 			.then(response => this.displayFaceBox(this.calculateFaceLocations(response)))
 		    .catch(err => {
+		    	this.setState({saveableImage: false});
 		    	this.setState({isActive: false});
 		    	console.log("error", err);
 		    	this.setState({imageUrl: balloons});
@@ -425,6 +429,7 @@ class App extends Component {
 
 	render() {
 		const isLocalUpload = this.state.localUpload;
+		const isSaveableImage = this.state.saveableImage;
 		return (
 		    <div className="App">
 		    	<LoadingOverlay
@@ -447,11 +452,13 @@ class App extends Component {
 		      		/>
 		      		<FaceRecognition faceEmojiURL={this.state.faceEmojiURL} width={this.state.width} height={this.state.height} canvas={this.state.canvas} ctx={this.state.ctx} box={this.state.box} imageUrl={this.state.imageUrl}/>
 		      		<div>
-		      			{isLocalUpload ? (
-		      				<SaveImage saveImage={this.saveImage}/>
-		      			) : (
-		      				<URLsave />
-		      			)}
+		      			{isSaveableImage ? (
+			      			{isLocalUpload ? (
+			      				<SaveImage saveImage={this.saveImage}/>
+			      			) : (
+			      				<URLsave />
+			      			)}
+			      		)}
 		      		</div>
 		      		<Footer />
 		      	</LoadingOverlay>
