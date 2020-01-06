@@ -28,7 +28,7 @@ import drunk from "./images/faces/drunk.png";
 import LoadingOverlay from 'react-loading-overlay';
 
 const app = new Clarifai.App({
- apiKey: '1949e5db69194d7cbb762c6988be5613'
+ apiKey: process.env.REACT_APP_CLARIFAI
 });
 
 	
